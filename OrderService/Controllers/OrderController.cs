@@ -1,6 +1,5 @@
 
 using System.Net;
-using System.Net.Http.Json;
 using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
 using OrderService.Data;
@@ -15,9 +14,7 @@ public class OrderController : ControllerBase
     private readonly IHttpClientFactory _clients;
     private readonly OrderDatabase _database;
 
-    public OrderController(
-        IHttpClientFactory clients,
-        OrderDatabase database)
+    public OrderController(IHttpClientFactory clients,OrderDatabase database)
     {
         _clients = clients;
         _database = database;
@@ -116,9 +113,7 @@ public class OrderController : ControllerBase
                 status = "Completed"
             });
         }
-        catch (Exception ex) when (
-            ex is HttpRequestException ||
-            ex is TaskCanceledException)
+        catch (Exception ex) when (ex is HttpRequestException ||ex is TaskCanceledException)
         {
             return StatusCode(502, new
             {

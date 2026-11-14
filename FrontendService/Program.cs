@@ -1,22 +1,33 @@
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
 builder.Services.AddControllers();
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
+
+builder.Services.AddHttpClient("catalog", client =>
+{
+    var catalogUrl = builder.Configuration["CatalogService:BaseUrl"]
+        ?? "http://localhost:5002/";
+
+    client.BaseAddress = new Uri(catalogUrl);
+    client.Timeout = TimeSpan.FromSeconds(5);
+});
+
+builder.Services.AddHttpClient("order", client =>
+{
+    var orderUrl = builder.Configuration["OrderService:BaseUrl"]
+        ?? "http://localhost:5003/";
+
+    client.BaseAddress = new Uri(orderUrl);
+    client.Timeout = TimeSpan.FromSeconds(5);
+});
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
 }
-
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
 
 app.MapControllers();
 

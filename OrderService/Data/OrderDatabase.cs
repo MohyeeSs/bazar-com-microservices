@@ -6,11 +6,9 @@ namespace OrderService.Data;
 public class OrderDatabase
 {
     private readonly string _connectionString;
-
     public OrderDatabase(IWebHostEnvironment environment)
     {
-        var directory = Path.Combine(
-            environment.ContentRootPath, "Data");
+        var directory = Path.Combine(environment.ContentRootPath, "Data");
 
         Directory.CreateDirectory(directory);
 
@@ -24,8 +22,7 @@ public class OrderDatabase
 
     public async Task InitializeAsync()
     {
-        await using var connection =
-            new SqliteConnection(_connectionString);
+        await using var connection = new SqliteConnection(_connectionString);
 
         await connection.OpenAsync();
 
@@ -46,10 +43,9 @@ public class OrderDatabase
     }
 
     public async Task<long> CreatePendingAsync(
-        int bookId, string title, decimal price)
+        int bookId, string title, double price)
     {
-        await using var connection =
-            new SqliteConnection(_connectionString);
+        await using var connection = new SqliteConnection(_connectionString);
 
         await connection.OpenAsync();
 
@@ -64,8 +60,9 @@ public class OrderDatabase
 
         command.Parameters.AddWithValue("$bookId", bookId);
         command.Parameters.AddWithValue("$title", title);
-        command.Parameters.AddWithValue("$price", (double)price);
+        command.Parameters.AddWithValue("$price", price);  
         command.Parameters.AddWithValue(
+
             "$date", DateTime.UtcNow.ToString("O"));
 
         await command.ExecuteNonQueryAsync();
@@ -73,14 +70,12 @@ public class OrderDatabase
         command.CommandText = "SELECT last_insert_rowid();";
         command.Parameters.Clear();
 
-        return Convert.ToInt64(
-            await command.ExecuteScalarAsync());
+        return Convert.ToInt64(await command.ExecuteScalarAsync());
     }
 
     public async Task SetStatusAsync(long orderId, string status)
     {
-        await using var connection =
-            new SqliteConnection(_connectionString);
+        await using var connection = new SqliteConnection(_connectionString);
 
         await connection.OpenAsync();
 
