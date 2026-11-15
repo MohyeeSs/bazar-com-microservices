@@ -5,7 +5,6 @@ namespace CatalogService.Data;
 public class CatalogDatabase
 {
     private readonly string _connectionString;
-
     public CatalogDatabase(IWebHostEnvironment environment)
     {
         var dataDirectory = Path.Combine(environment.ContentRootPath,"Data");
@@ -20,8 +19,7 @@ public class CatalogDatabase
 
     public async Task InitializeAsync()
     {
-        await using var connection =
-            new SqliteConnection(_connectionString);
+        await using var connection = new SqliteConnection(_connectionString);
 
         await connection.OpenAsync();
 

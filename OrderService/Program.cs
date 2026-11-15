@@ -12,7 +12,7 @@ builder.Services.AddHttpClient("catalog", client =>
 {
     var catalogUrl = builder.Configuration[
         "CatalogService:BaseUrl"]
-        ?? "http://localhost:5002/";
+        ?? "http://catalog-service:8080/";
 
     client.BaseAddress = new Uri(catalogUrl);
     client.Timeout = TimeSpan.FromSeconds(5);

@@ -7,7 +7,7 @@ builder.Services.AddOpenApi();
 builder.Services.AddHttpClient("catalog", client =>
 {
     var catalogUrl = builder.Configuration["CatalogService:BaseUrl"]
-        ?? "http://localhost:5002/";
+        ?? "http://catalog-service:8080/";
 
     client.BaseAddress = new Uri(catalogUrl);
     client.Timeout = TimeSpan.FromSeconds(5);
@@ -16,7 +16,7 @@ builder.Services.AddHttpClient("catalog", client =>
 builder.Services.AddHttpClient("order", client =>
 {
     var orderUrl = builder.Configuration["OrderService:BaseUrl"]
-        ?? "http://localhost:5003/";
+        ?? "http://order-service:8080/";
 
     client.BaseAddress = new Uri(orderUrl);
     client.Timeout = TimeSpan.FromSeconds(5);

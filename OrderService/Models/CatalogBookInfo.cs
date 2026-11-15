@@ -1,6 +1,4 @@
-
 namespace OrderService.Models;
-
 public class CatalogBookInfo
 {
     public string Title { get; set; } = "";

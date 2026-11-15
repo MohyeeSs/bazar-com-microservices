@@ -20,9 +20,7 @@ public class FrontendController : ControllerBase
 
         try
         {
-            using var response = await catalog.GetAsync(
-                $"search/{Uri.EscapeDataString(topic)}");
-
+            using var response = await catalog.GetAsync($"search/{Uri.EscapeDataString(topic)}");
             return await ForwardResponse(response);
         }
         catch (HttpRequestException)
@@ -52,7 +50,6 @@ public class FrontendController : ControllerBase
         try
         {
             using var response = await catalog.GetAsync($"info/{id}");
-
             return await ForwardResponse(response);
         }
         catch (HttpRequestException)
